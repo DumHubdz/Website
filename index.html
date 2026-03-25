@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>🔥 OBF LUA SIÊU MẠNH 🔥</title>
+<style>
+    body {
+        background: #0f0f0f;
+        color: white;
+        font-family: Arial;
+        text-align: center;
+        padding: 50px;
+    }
+
+    .box {
+        background: #1c1c1c;
+        padding: 30px;
+        border-radius: 15px;
+        width: 400px;
+        margin: auto;
+        box-shadow: 0 0 20px #000;
+    }
+
+    input, button {
+        margin-top: 15px;
+        padding: 10px;
+        width: 100%;
+        border-radius: 10px;
+        border: none;
+    }
+
+    button {
+        background: #ff3c3c;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #ff0000;
+    }
+
+    #status {
+        margin-top: 15px;
+        color: #00ffcc;
+    }
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>🔥 LUA OBFUSCATOR 🔥</h2>
+
+    <input type="file" id="fileInput" accept=".lua,.txt">
+    <button onclick="obfuscate()">🚀 OBF SIÊU MẠNH</button>
+
+    <p id="status"></p>
+</div>
+
+<script>
+function randomString(length) {
+    let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+function base64Encode(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function fakeHeavyObf(code) {
+    let encoded = base64Encode(code);
+
+    let junk = "";
+    for (let i = 0; i < 20; i++) {
+        junk += "local " + randomString(8) + " = \"" + randomString(20) + "\";\n";
+    }
+
+    return `
+--🔥 OBF BY CHATGPT 🔥--
+${junk}
+
+local data = "${encoded}"
+local decoded = game:HttpGet("https://example.com/") -- fake
+
+local function decode(b)
+    return (syn and syn.crypt and syn.crypt.base64.decode(b)) or b
+end
+
+loadstring(decode(data))()
+`;
+}
+
+function obfuscate() {
+    let file = document.getElementById("fileInput").files[0];
+    let status = document.getElementById("status");
+
+    if (!file) {
+        alert("Chọn file trước!");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(e) {
+        let content = e.target.result;
+
+        status.innerText = "⏳ Đang mã hoá siêu mạnh...";
+        
+        setTimeout(() => {
+            let obf = fakeHeavyObf(content);
+
+            let blob = new Blob([obf], {type: "text/plain"});
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "obf_script.lua";
+            a.click();
+
+            status.innerText = "✅ OBF xong! File đã tải.";
+        }, 3000); // delay giả lập
+    };
+
+    reader.readAsText(file);
+}
+</script>
+
+</body>
+  </html>
